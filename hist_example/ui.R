@@ -9,25 +9,18 @@
 
 library(shiny)
 
-# Define UI for application that draws a histogram
 shinyUI(fluidPage(
   
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
+  selectInput ("selection", "Number of bins in histgram (approximate):", 
+               c(10,20,35,50), 20 ),
+  checkboxInput("checkbox1", "Showindividual observations"),
+  checkboxInput("checkbox2", "Show density estimate"),
+  plotOutput("plot"),
   
-  # Sidebar with a slider input for number of bins 
-  sidebarLayout(
-    sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-       plotOutput("distPlot")
-    )
-  )
+  conditionalPanel(condition = "input.checkbox2 == true", 
+                   sliderInput ("BandWidth","BandWidth adjustment:", min = 0.2,
+                                max = 2, value = 1))
+  
+  
+  
 ))
